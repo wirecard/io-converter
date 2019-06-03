@@ -2,8 +2,6 @@
 
 namespace Wirecard\IsoToWppvTo;
 
-use http\Exception\InvalidArgumentException;
-
 /**
  * Class Converter
  *
@@ -16,14 +14,29 @@ use http\Exception\InvalidArgumentException;
  */
 class Converter
 {
+    /** @var string formatmatch for ISO-639 */
+    const ISO639 = "/^[a-z]{2,3}$/";
+
     /** @var string formatmatch ISO-639 || ISO-639 + ISO-3166 */
     const ISO_VALID = "/^[a-z]{2,3}(?:-[A-Z]{2,3})?$/";
 
     /** @var string formatmatch ISO-639 + ISO-3166 */
     const ISO_MIXED = "/^[a-z]{2,3}-[A-Z]{2,3}$/";
 
+    /**
+     * Supported language codes
+     *
+     * @var array
+     * @since 1.0.0
+     */
     private $languageCodes;
 
+    /**
+     * Default fallback language for unsupported language codes
+     *
+     * @var string
+     * @since 1.0.0
+     */
     private $fallbackCode;
 
     /**
@@ -33,19 +46,31 @@ class Converter
      */
     public function __construct()
     {
-        $this->languageCodes = file_get_contents(__DIR__ . "/../assets/wpp-languagecodes.json");
-        $this->languageCodes = json_decode($this->languageCodes, true);
+        $languageCodes = file_get_contents(__DIR__ . "/../assets/wpp-languagecodes.json");
+
+        $this->languageCodes = json_decode($languageCodes, true);
         $this->fallbackCode = "en";
     }
 
+    /**
+     * Validates given language code and returns supported WPPv2 language code instead
+     * For unsupported language codes within WPPv2 fallback language code will be returned
+     *
+     * @param $code
+     * @return string
+     * @since 1.0.0
+     */
     public function convert($code)
     {
-        if ($this->isValidLanguageCode($code)) {
-            throw new InvalidArgumentException("Language code must be of format ISO-639 or mixed format with ISO-639 + ISO-3166 Alpha-2/Alpha-3.");
+        if (!$this->isValidLanguageCode($code)) {
+            throw new \InvalidArgumentException("Language code must be of format ISO-639 or mixed format with ISO-639 + ISO-3166 Alpha-2/Alpha-3.");
         }
 
         if ($this->includesCountryCode($code)) {
             $code = substr($code, 0, 2);
+            if (!$code) {
+                throw new \InvalidArgumentException("Language code must be of format ISO-639 or mixed format with ISO-639 + ISO-3166 Alpha-2/Alpha-3.");
+            }
         }
 
         if (!array_key_exists($code, $this->languageCodes)) {
@@ -55,6 +80,26 @@ class Converter
         return $code;
     }
 
+    /**
+     * Setter for valid fallbackcode supported by WPPv2
+     *
+     * @param $code
+     * @since 1.0.0
+     */
+    public function setFallbackCode($code)
+    {
+        if (preg_match(self::ISO639, $code) && (array_key_exists($code, $this->languageCodes))) {
+            $this->fallbackCode = $code;
+        }
+    }
+
+    /**
+     * Validated given language code for ISO-639 || ISO-639 + ISO-3166 Alpha-2/Alpha-3
+     *
+     * @param $code
+     * @return bool
+     * @since 1.0.0
+     */
     private function isValidLanguageCode($code)
     {
         if (preg_match(self::ISO_VALID, $code)) {
@@ -63,6 +108,13 @@ class Converter
         return false;
     }
 
+    /**
+     * Checks if the give language code includes a country code (ISO-3166 Alpha-2/Alpha-3)
+     *
+     * @param $code
+     * @return bool
+     * @since 1.0.0
+     */
     private function includesCountryCode($code)
     {
         if (preg_match(self::ISO_MIXED, $code)) {
