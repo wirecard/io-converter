@@ -63,13 +63,17 @@ class Converter
     public function convert($code)
     {
         if (!$this->isValidLanguageCode($code)) {
-            throw new \InvalidArgumentException("Language code must be of format ISO-639 or mixed format with ISO-639 + ISO-3166 Alpha-2/Alpha-3.");
+            throw new \InvalidArgumentException(
+                "Language code must be of format ISO-639 or mixed format with ISO-639 + ISO-3166 Alpha-2/Alpha-3."
+            );
         }
 
         if ($this->includesCountryCode($code)) {
             $code = substr($code, 0, 2);
             if (!$code) {
-                throw new \InvalidArgumentException("Language code must be of format ISO-639 or mixed format with ISO-639 + ISO-3166 Alpha-2/Alpha-3.");
+                throw new \InvalidArgumentException(
+                    "Language code must be of format ISO-639 or mixed format with ISO-639 + ISO-3166 Alpha-2/Alpha-3."
+                );
             }
         }
 

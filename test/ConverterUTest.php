@@ -1,8 +1,10 @@
 <?php
 
-use Wirecard\IsoToWppvTo\Converter;
+namespace Wirecard\IsoToWppvTo;
 
-class ConverterUTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ConverterUTest extends TestCase
 {
     private $converter;
 
@@ -13,7 +15,7 @@ class ConverterUTest extends PHPUnit_Framework_TestCase
 
     public function testLoadingOfSupportedLanguagesFromFile()
     {
-        $reflection = new ReflectionObject($this->converter);
+        $reflection = new \ReflectionObject($this->converter);
 
         $property = $reflection->getProperty('languageCodes');
         $property->setAccessible(true);
