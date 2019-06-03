@@ -1,2 +1,2 @@
 # iso-wppv2-converter
-Converts ISO 3166-2 codes to WPPv2 supported language codes
+Converts country-language codes (ISO-639 + ISO-3166 Alpha-2) to WPPv2 supported language codes
