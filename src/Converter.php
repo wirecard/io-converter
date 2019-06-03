@@ -94,6 +94,17 @@ class Converter
     }
 
     /**
+     * Getter for valid fallbackcode supported by WPPv2
+     *
+     * @return string
+     * @since 1.0.0
+     */
+    public function getFallbackCode()
+    {
+        return $this->fallbackCode;
+    }
+
+    /**
      * Validated given language code for ISO-639 || ISO-639 + ISO-3166 Alpha-2/Alpha-3
      *
      * @param $code
