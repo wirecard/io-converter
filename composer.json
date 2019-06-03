@@ -7,8 +7,9 @@
   "scripts": {
     "cs-check": "phpcs",
     "cs-fix": "phpcbf",
+    "upload-coverage": "codacycoverage clover build/coverage/xml",
     "test": "phpunit --colors=always",
-    "test-coverage": "phpunit --colors=always --coverage-text"
+    "test-coverage": "phpunit --coverage-clover build/coverage/xml"
   },
   "require": {
     "php": ">=5.6"
