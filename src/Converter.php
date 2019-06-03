@@ -2,10 +2,12 @@
 
 namespace Wirecard\IsoToWppvTo;
 
+use http\Exception\InvalidArgumentException;
+
 /**
  * Class Converter
  *
- * This class converts country-language codes (ISO-639 + ISO-3166 Alpha-2) to WPPv2 supported language codes.
+ * This class converts country-language codes (ISO-639 + ISO-3166 Alpha-2/Alpha-3) to WPPv2 supported language codes.
  * Language code input with ISO-639 and without ISO-3166 Alpha-2 can be processed too.
  * If the given language code is not supported fallback language code "en" will be returned during conversion.
  *
@@ -14,7 +16,15 @@ namespace Wirecard\IsoToWppvTo;
  */
 class Converter
 {
+    /** @var string formatmatch ISO-639 || ISO-639 + ISO-3166 */
+    const ISO_VALID = "/^[a-z]{2,3}(?:-[A-Z]{2,3})?$/";
+
+    /** @var string formatmatch ISO-639 + ISO-3166 */
+    const ISO_MIXED = "/^[a-z]{2,3}-[A-Z]{2,3}$/";
+
     private $languageCodes;
+
+    private $fallbackCode;
 
     /**
      * Converter constructor.
@@ -24,5 +34,40 @@ class Converter
     public function __construct()
     {
         $this->languageCodes = file_get_contents(__DIR__ . "/../assets/wpp-languagecodes.json");
+        $this->languageCodes = json_decode($this->languageCodes, true);
+        $this->fallbackCode = "en";
+    }
+
+    public function convert($code)
+    {
+        if ($this->isValidLanguageCode($code)) {
+            throw new InvalidArgumentException("Language code must be of format ISO-639 or mixed format with ISO-639 + ISO-3166 Alpha-2/Alpha-3.");
+        }
+
+        if ($this->includesCountryCode($code)) {
+            $code = substr($code, 0, 2);
+        }
+
+        if (!array_key_exists($code, $this->languageCodes)) {
+            return $this->fallbackCode;
+        }
+
+        return $code;
+    }
+
+    private function isValidLanguageCode($code)
+    {
+        if (preg_match(self::ISO_VALID, $code)) {
+            return true;
+        }
+        return false;
+    }
+
+    private function includesCountryCode($code)
+    {
+        if (preg_match(self::ISO_MIXED, $code)) {
+            return true;
+        }
+        return false;
     }
 }
