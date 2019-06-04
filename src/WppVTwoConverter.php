@@ -5,7 +5,8 @@ namespace Wirecard\Converter;
 /**
  * Class WppVTwoConverter
  *
- * This class converts country-language codes (ISO-639-1 + ISO-3166-1 Alpha-2/Alpha-3) to WPPv2 supported language codes.
+ * This class converts country-language codes (ISO-639-1 + ISO-3166-1 Alpha-2/Alpha-3)
+ * to WPPv2 supported language codes.
  * Language code input with ISO-639-1 and without ISO-3166-1 Alpha-2 can be processed too.
  * If the given language code is not supported fallback language code "en" will be returned during conversion.
  *
@@ -24,11 +25,22 @@ class WppVTwoConverter extends JsonConverter
      * Converter constructor.
      *
      * Loads WPPv2 supported language codes from given json file and sets fallback language and sets validation regex.
+     * @throws \Exception
      */
     public function __construct()
     {
         $json = $this->readJsonFile(self::FALLBACK_FILE);
+        if (!$json) {
+            throw new \Exception(
+                "Fallback file can not be found. Please ensure that the desired file exists."
+            );
+        }
         $this->mapJson($json);
+        if (empty($this->getMapping())) {
+            throw new \Exception(
+                "The fallback file for mapping is invalid. Please check its content."
+            );
+        }
 
         $this->setRegex(self::ISO_VALID);
         $this->setValidFallback('en');
