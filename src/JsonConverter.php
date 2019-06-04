@@ -124,7 +124,10 @@ class JsonConverter implements ConverterInterface
      */
     public function readJsonFile($filePath)
     {
-        return file_get_contents($filePath);
+        if (file_exists($filePath)) {
+            return file_get_contents($filePath);
+        }
+        return false;
     }
 
     /**
