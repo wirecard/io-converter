@@ -18,6 +18,9 @@ class JsonConverter implements ConverterInterface
     /** @var string formatmatch ISO-639-1 - ISO-3166-1 */
     const ISO639_1_ISO3166 = "/^[a-z]{2}-[A-Z]{2,3}$/";
 
+    /** @var string basic json validation regex */
+    const VALID_JSON = "/{.*:(?:{.*:)?.*}(?:})?$/";
+
     /**
      * Supported mapping
      *
@@ -42,6 +45,15 @@ class JsonConverter implements ConverterInterface
      */
     protected $regex;
 
+    /**
+     * JsonConverter constructor.
+     *
+     * Sets default json validation regex
+     */
+    public function __construct()
+    {
+        $this->regex = self::VALID_JSON;
+    }
 
     /**
      * Sets valid fallback case for specific conversion

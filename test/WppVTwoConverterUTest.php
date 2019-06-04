@@ -1,23 +1,24 @@
 <?php
 
-namespace Wirecard\IsoToWppvTwo;
+namespace Wirecard\Converter;
 
 use PHPUnit\Framework\TestCase;
 
-class ConverterUTest extends TestCase
+class WppVTwoConverterUTest extends TestCase
 {
     private $converter;
 
     public function setUp()
     {
-        $this->converter = new WPPConverter();
+        $this->converter = new WppVTwoConverter();
+        $this->converter->init();
     }
 
     public function testLoadingOfSupportedLanguagesFromFile()
     {
         $reflection = new \ReflectionObject($this->converter);
 
-        $property = $reflection->getProperty('languageCodes');
+        $property = $reflection->getProperty('mapping');
         $property->setAccessible(true);
 
         $this->assertArrayHasKey('de', $property->getValue($this->converter));
@@ -57,11 +58,38 @@ class ConverterUTest extends TestCase
         $this->assertEquals('en', $supportedCode);
     }
 
-    public function testSetValidFallback()
+    public function testSetFallback()
     {
         $fallback = 'de';
-        $this->converter->setFallbackCode($fallback);
+        $this->converter->setFallback($fallback);
 
-        $this->assertEquals($fallback, $this->converter->getFallbackCode());
+        $this->assertEquals($fallback, $this->converter->getFallback());
+    }
+
+    /**
+     * @expectedException  \InvalidArgumentException
+     */
+    public function testFailureSetFallback()
+    {
+        $fallback = 'ABCD';
+        $this->converter->setFallback($fallback);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testFailureInit()
+    {
+        $fallbackFile = 'nothing.php';
+        $this->converter->init($fallbackFile);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testFailureJsonInit()
+    {
+        $fallbackFile = __DIR__ . "/assets/not-json.json";
+        $this->converter->init($fallbackFile);
     }
 }

@@ -22,22 +22,41 @@ class WppVTwoConverter extends JsonConverter
     const FALLBACK_FILE = __DIR__ . "/../assets/wpp-languagecodes.json";
 
     /**
-     * Converter constructor.
+     * WppVTwoConverter constructor.
      *
-     * Loads WPPv2 supported language codes from given json file and sets fallback language and sets validation regex.
-     * @throws \Exception
+     * Sets default values for conversion
      */
     public function __construct()
     {
-        $json = $this->readJsonFile(self::FALLBACK_FILE);
+        parent::__construct();
+
+        $this->fallback = 'en';
+        $this->mapping = array('en' => 'English');
+        $this->regex = self::ISO_VALID;
+    }
+
+    /**
+     * Initialize Wppv2 converter with default values
+     *
+     * Loads WPPv2 supported language codes from given json file, sets fallback language and validation regex.
+     *
+     * @param string
+     * @throws \InvalidArgumentException
+     */
+    public function init($jsonFile = '')
+    {
+        if (empty($jsonFile)) {
+            $jsonFile = self::FALLBACK_FILE;
+        }
+        $json = $this->readJsonFile($jsonFile);
         if (!$json) {
-            throw new \Exception(
+            throw new \InvalidArgumentException(
                 "Fallback file can not be found. Please ensure that the desired file exists."
             );
         }
         $this->mapJson($json);
         if (empty($this->getMapping())) {
-            throw new \Exception(
+            throw new \InvalidArgumentException(
                 "The fallback file for mapping is invalid. Please check its content."
             );
         }
