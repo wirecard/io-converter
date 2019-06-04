@@ -68,6 +68,7 @@ class WppVTwoConverter extends JsonConverter
      *
      * @param $input
      * @return string
+     * @throws \InvalidArgumentException
      * @since 1.0.0
      */
     public function convert($input)
@@ -79,12 +80,7 @@ class WppVTwoConverter extends JsonConverter
         }
 
         if ($this->includesCountryCode($input)) {
-            $input = substr($input, 0, 2);
-            if (!$input) {
-                throw new \InvalidArgumentException(
-                    "Language code must be of format ISO-639 or mixed format with ISO-639 + ISO-3166 Alpha-2/Alpha-3."
-                );
-            }
+            $input = mb_substr($input, 0, 2);
         }
 
         if (!array_key_exists($input, $this->getMapping())) {
