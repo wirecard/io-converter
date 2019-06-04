@@ -1,6 +1,6 @@
 <?php
 
-namespace Wirecard\IsoToWppvTo;
+namespace Wirecard\IsoToWppvTwo;
 
 use PHPUnit\Framework\TestCase;
 
@@ -10,7 +10,7 @@ class ConverterUTest extends TestCase
 
     public function setUp()
     {
-        $this->converter = new Converter();
+        $this->converter = new WPPConverter();
     }
 
     public function testLoadingOfSupportedLanguagesFromFile()

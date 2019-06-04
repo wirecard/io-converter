@@ -12,8 +12,8 @@ matrix:
     - TEST_COVERAGE=true
 
 install:
-- travis_retry composer install --no-interaction
-- composer show
+- if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer install --no-interaction; fi
+- if [[ $TEST_COVERAGE == 'true' ]]; then composer show; fi
 
 script:
 - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage; fi
