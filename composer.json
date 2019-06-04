@@ -1,5 +1,5 @@
 {
-  "name": "wirecard/iso-wppv2-converter",
+  "name": "wirecard/io-converter",
   "description": "Converts country-language codes to WPPv2 supported language codes",
   "minimum-stability": "stable",
   "license": "GPL-3.0-only",

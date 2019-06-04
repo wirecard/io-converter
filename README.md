@@ -1,6 +1,6 @@
-# ISO to WPP v2 language codes converter
+# Wirecard IO converter
 
-Converts country-language codes from [ISO-639](https://www.iso.org/iso-639-language-codes.html) and from [ISO-639](https://www.iso.org/iso-639-language-codes.html) combined with [ISO-3166](https://www.iso.org/iso-3166-country-codes.html) Alpha-2/Alpha-3 to WPP v2 supported language codes.
+Includes various converters which are adaptable to your needs.
 
 [![License](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://github.com/wirecard/iso-wppv2-converter/blob/master/LICENSE)
 [![PHP v5.6](https://img.shields.io/badge/php-v5.6-yellow.svg)](http://www.php.net)
@@ -15,17 +15,22 @@ If you have not installed Composer, you can follow the [offical instructions](ht
 
 Once composer is installed, run this in your terminal/command-line tool:
 
-`composer require wirecard/iso-wppv2-converter`
+`composer require wirecard/io-converter`
 
-## Usage
+## Wirecard WPP v2 Converter
+
+WPP v2 converter can be used to convert country-language codes from [ISO-639-1](https://www.iso.org/iso-639-language-codes.html) and from [ISO-639-1](https://www.iso.org/iso-639-language-codes.html) combined with [ISO-3166](https://www.iso.org/iso-3166-country-codes.html) Alpha-2/Alpha-3 to WPP v2 supported language codes.
+
+### Usage
 
 In your application load the `vendor/autoload.php` that Composer provides.   
 You can then initialize the `Converter` class like so:
 
 ```php
-use Wirecard\IsoToWppvTo\Converter;
+use Wirecard\Converter\WppVTwoConverter;
 
-$converter = new Converter();
+$converter = new WppVTwoConverter();
+$converter->init();
 ```
 
 This automatically loads all the supported language codes for WPP v2.
@@ -60,7 +65,8 @@ $converter->convert("zz");
 // => "en"
 ```
 
-Furthermore there is the possibility to set your own fallback language to "de" for example with `$converter->setFallbackCode('de')`.
+Furthermore there is the possibility to set your own fallback language to "de" for example with `$converter->setFallback('de')`.
+Please ensure that the language code you want to set as fallback is supported by WPP v2, else the fallback setting will not work.
 
 ### Exceptions
 
@@ -72,4 +78,4 @@ $converter->convert("en-USUS");
 // => InvalidArgumentException
 ```
 
-The correct format for input language code can be `xx` or `xx-XX` or `xxx-XXX`.
+The correct format for input language code can be `xx` or `xx-XX` or `xx-XXX`.
