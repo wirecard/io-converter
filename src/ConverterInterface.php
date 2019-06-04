@@ -16,14 +16,14 @@ interface ConverterInterface
      *
      * @param $fallback
      */
-    public function setValidFallback($fallback);
+    public function setFallback($fallback);
 
     /**
      * Returns setted fallback for specific conversion
      *
      * @return mixed
      */
-    public function getValidFallback();
+    public function getFallback();
 
     /**
      * Converts input to new formatted output

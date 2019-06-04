@@ -47,12 +47,16 @@ class JsonConverter implements ConverterInterface
      * Sets valid fallback case for specific conversion
      *
      * @param $fallback
+     * @throws \InvalidArgumentException
      */
-    public function setValidFallback($fallback)
+    public function setFallback($fallback)
     {
-        if (preg_match($this->regex, $fallback) && (array_key_exists($fallback, $this->mapping))) {
-            $this->fallback = $fallback;
+        if (!preg_match($this->regex, $fallback) || (!array_key_exists($fallback, $this->mapping))) {
+            throw new \InvalidArgumentException(
+                "The input fallback is invalid."
+            );
         }
+        $this->fallback = $fallback;
     }
 
     /**
@@ -60,7 +64,7 @@ class JsonConverter implements ConverterInterface
      *
      * @return mixed
      */
-    public function getValidFallback()
+    public function getFallback()
     {
         return $this->fallback;
     }
@@ -70,6 +74,7 @@ class JsonConverter implements ConverterInterface
      *
      * @param $input
      * @return mixed
+     * @throws \InvalidArgumentException
      */
     public function convert($input)
     {

@@ -43,19 +43,23 @@ class WppVTwoConverter extends JsonConverter
         }
 
         $this->setRegex(self::ISO_VALID);
-        $this->setValidFallback('en');
+        $this->setFallback('en');
     }
 
     /**
      * Sets valid fallback case for specific conversion
      *
      * @param $fallback
+     * @throws \InvalidArgumentException
      */
-    public function setValidFallback($fallback)
+    public function setFallback($fallback)
     {
-        if (preg_match(self::ISO639_1, $fallback) && (array_key_exists($fallback, $this->getMapping()))) {
-            $this->fallback = $fallback;
+        if (!preg_match(self::ISO639_1, $fallback) || (!array_key_exists($fallback, $this->getMapping()))) {
+            throw new \InvalidArgumentException(
+                "The input fallback is invalid. Please check again."
+            );
         }
+        $this->fallback = $fallback;
     }
 
     /**
@@ -84,7 +88,7 @@ class WppVTwoConverter extends JsonConverter
         }
 
         if (!array_key_exists($input, $this->getMapping())) {
-            return $this->getValidFallback();
+            return $this->getFallback();
         }
 
         return $input;
