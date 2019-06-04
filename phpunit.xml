@@ -1,6 +1,6 @@
 <phpunit bootstrap="./vendor/autoload.php" colors="true">
     <testsuites>
-        <testsuite name="Wirecard\\IsoToWppvTo">
+        <testsuite name="Wirecard\\Converter">
             <directory suffix="UTest.php">./test</directory>
         </testsuite>
     </testsuites>
