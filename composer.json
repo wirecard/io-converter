@@ -1,6 +1,6 @@
 {
   "name": "wirecard/io-converter",
-  "description": "Converts country-language codes to WPPv2 supported language codes",
+  "description": "Includes various adaptable I/O coverters.",
   "minimum-stability": "stable",
   "license": "GPL-3.0-only",
   "type": "library",

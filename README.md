@@ -8,6 +8,11 @@ Includes various converters which are adaptable to your needs.
 [![PHP v7.1](https://img.shields.io/badge/php-v7.1-yellow.svg)](http://www.php.net)
 [![PHP v7.2](https://img.shields.io/badge/php-v7.2-yellow.svg)](http://www.php.net)
 
+## Included Converters
+
++ **WppVTwoConverter**
++ **JsonConverter**
+
 ## Installation
 
 The library can be installed using [Composer](https://getcomposer.org/download/).
@@ -24,7 +29,7 @@ WPP v2 converter can be used to convert country-language codes from [ISO-639-1](
 ### Usage
 
 In your application load the `vendor/autoload.php` that Composer provides.   
-You can then initialize the `Converter` class like so:
+You can then initialize the `WppVTwoConverter` class like so:
 
 ```php
 use Wirecard\Converter\WppVTwoConverter;
@@ -37,16 +42,17 @@ This automatically loads all the supported language codes for WPP v2.
 
 ### Conversion
 
-The ISO to WPP v2 converter does support two types of formats - ISO-639 and a mix with ISO-639 and ISO-3166. 
+The WPP v2 converter does support two types of input formats:
 
-With ISO-639 input it returns a fallback language code if the code which was sent is not supported within WPP v2. 
++ **<span style="color:blue">ISO-639-1</span>** (e.g. "en")
++ **<span style="color:blue">ISO-639-1 - ISO-3166</span>** (e.g. "en-US")
+
+If the given input is valid, but is not supported within WPP v2 yet, the converter will return a fallback language. 
+If the input is valid and supported the converter will return the correct code for usage within WPP v2.
 
 *(The fallback language code is default set to "en")*
 
-For the mixed language code it returns either the matching language code or the fallback language code.
-
-To convert those codes to the correct format, you only have to pass the language code in one of the specified formats
-and call the convert function: 
+To convert your language codes to WPP v2 supported codes use the specified input formats and call the convert function: 
 
 ```php
 $converter->convert("en-US");
@@ -58,7 +64,7 @@ $converter->convert("de");
 // => "de"
 ```
 
-If you pass a correct formated language code which is not supported yet by WPP v2 you will get the fallback language code:
+If you pass a correct formatted language code which is not supported yet by WPP v2 you will get the fallback language code:
 
 ```php
 $converter->convert("zz");
