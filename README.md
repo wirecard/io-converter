@@ -3,7 +3,6 @@
 Includes various converters which are adaptable to your needs.
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/73c76b2577de4bfca5c40b0b53d32c5e)](https://app.codacy.com/gh/wirecard/io-converter?utm_source=github.com&utm_medium=referral&utm_content=wirecard/io-converter&utm_campaign=Badge_Grade_Dashboard)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c4e30e8daa32463fba81ff2673e4aaa3)](https://app.codacy.com/app/Wirecard/io-converter?utm_source=github.com&utm_medium=referral&utm_content=wirecard/io-converter&utm_campaign=Badge_Grade_Dashboard)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/wirecard/iso-wppv2-converter/blob/master/LICENSE)
 [![PHP v5.6](https://img.shields.io/badge/php-v5.6-yellow.svg)](http://www.php.net)
 [![PHP v7.0](https://img.shields.io/badge/php-v7.0-yellow.svg)](http://www.php.net)
