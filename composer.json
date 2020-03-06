@@ -2,7 +2,7 @@
   "name": "wirecard/io-converter",
   "description": "Includes various adaptable I/O coverters.",
   "minimum-stability": "stable",
-  "license": "GPL-3.0-only",
+  "license": "MIT",
   "type": "library",
   "scripts": {
     "cs-check": "phpcs",
